@@ -1,2 +1,2 @@
-# tabfact.github.io
-The official page for TabFact dataset from UCSB NLP group.
+# OTT-QA.github.io
+The official page for OTT-QA dataset from UCSB NLP group.
