@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" />
+
+<body>
+    <div id='title'>
+    </div>
+    <pre class="default prettyprint prettyprinted" id="extra2"><strong>Background Information Board</strong>: Hover your mouse over the entities in the table to understand their background</pre>
+    <div id='table'>        
+    </div>
+    
+    <div>
+        <div id='extra' style="display: inline-block;width:500px;height:100px;border:1px solid #000;background-color:lightcyan">
+            Showing the results!
+        </div>
+
+        <div style="display: inline-block;">
+            <input class="form-control" type="text" placeholder="Search a keyword" style="width:200px" id='search'/>
+            <br>
+            <button type="button" onclick="search()">Search for it</button>
+        </div>
+    </div>
+    
+    <div id='q1'>
+    </div>
+    <div>
+    Answer:
+    <a id='a1' onclick="searchFor(this)"></a>
+    </div>
+    <div id='where'>
+    </div>
+    <div align="left">
+    <button type="button" onclick="prev()">Prev</button> <button type="button" onclick="next()">Next</button>
+    </div>
+    <div class="col-lg-6" align="left">
+        <input class="form-control" type="text" placeholder="Input a Question ID" style="width:500px" id='jump'/>
+        <br>
+        <button type="button" onclick="Jump()">Jump To</button>
+    </div>
+</body>
+
+
+<script>
+    jQuery.ajaxSetup({async:false});
+    
+    var collected;
+    var global_requests;
+    var table_cells = [];
+    var histories = [];
+    var mapping = {}
+    $(document).ready(function(){
+        $.get('https://raw.githubusercontent.com/wenhuchen/OTT-QA/master/released_data/dev.traced.json', function(data){
+            collected = JSON.parse(data);
+        }, 'text').fail(function() {
+            console.log("requesting text failed");
+        });
+        
+        //var index = Math.floor(Math.random() * collected.length);
+        var index = 0
+        histories.push(index);
+        
+        show(collected[index]);
+    });
+    
+    function JsonToTable(tableidx, data){
+        table_cells = []
+        var title = format('<a target="_blank" id="{0}" href="{1}"> {2} </a>', data['title'], data['url'], data['title'])
+        //var page = data['title'].split(' ').join('_');
+        //var text = httpGet(format('/wiki/{0}', page));
+        $('#title').html('Index: ' + tableidx + ' Title: ' + title)
+        
+        var output = []
+        var tmp = '<tr>';
+        for (i = 0; i < data['header'].length; i++){
+            tmp += '<th>' + data['header'][i][0] + ' '
+            for(j = 0; j < data['header'][i][1].length; j++){
+                tmp += format('<a onmouseover="showMessage2(this)" id="{0}" href="{1}">[{2}]</a>', data['header'][i][1][j], '#extra2', j + 1);
+                if (j < data['header'][i][1].length - 1) {
+                    tmp += ',';
+                }
+            }
+            tmp += "</th>";
+        }
+        tmp += '</tr>'        
+        output.push(tmp);
+        
+        // loop over the rows
+        for (i = 0; i < data['data'].length; i++){
+            tmp = '<tr>'
+            for (j = 0; j < data['data'][i].length; j++){
+                tmp += '<td>' + data['data'][i][j][0] + ' ';
+                table_cells.push(data['data'][i][j][0])
+                for (k = 0; k < data['data'][i][j][1].length; k++){
+                    tmp += format('<a onmouseover="showMessage2(this)" id="{0}" href="{1}">[{2}]</a>', data['data'][i][j][1][k], '#extra2', k + 1);
+                    if (k < data['data'][i][j][1].length - 1) {
+                        tmp += ',';
+                    }
+                    mapping[data['data'][i][j][1][k]] = data['data'][i][j][0]
+                }
+                tmp += '</td>';
+            }
+            tmp += '</tr>';
+            output.push(tmp)
+        }
+        
+        output = "<table class='wikitable'>" + output.join(" ") + "</table>";
+        
+        return output
+    }
+    
+    function format (fmtstr) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return fmtstr.replace(/\{(\d+)\}/g, function (match, index) {
+        return args[index];
+        });
+    }
+    
+    function include(string1, string2, strong){
+        string1 = string1.toLowerCase();
+        string2 = string2.toLowerCase();      
+        if (strong){
+            string1 = " " + string1 + " ";
+            string2 = " " + string2 + " ";     
+        }
+        return string1.includes(string2)
+    }
+    
+    function searchFor(element){
+        var text = element.text;
+        if(table_cells.includes(text)){
+            $('#extra').html("Within the Table");
+        }
+        else{
+            var tmp = [];
+            for (var key in global_requests) {
+                if (include(global_requests[key], text, true)){
+                    tmp.push(mapping[key]);
+                }
+            }
+            if (tmp.length == 0){
+                for (var key in global_requests) {
+                    if (include(global_requests[key], text, false)){
+                        tmp.push(mapping[key]);
+                    }
+                }
+            }
+            var show_text = tmp.join('<br>');
+            if (show_text.length == 0){
+                $('#extra').html("NOT FOUND!");
+            }
+            else{
+                $('#extra').html(show_text);
+            }
+        }
+    }
+    
+    function search(element){
+        var text = $('#search').val().trim();
+        if (text.length > 0){
+            var tmp = [];
+            for (var key in global_requests) {
+                if (include(global_requests[key], text, true)){
+                    tmp.push(mapping[key]);
+                }
+            }
+            if (tmp.length == 0){
+                for (var key in global_requests) {
+                    if (include(global_requests[key], text, false)){
+                        tmp.push(mapping[key]);
+                    }
+                }
+            }
+            var show_text = tmp.join('<br>');
+            if (show_text.length == 0){
+                $('#extra').html(`NOT FOUND regarding ${text}!`);
+            }
+            else{
+                $('#extra').html(show_text);
+            }   
+        }
+    }
+    
+    function showMessage2(hyperlink){
+        var theUrl = hyperlink.id;
+        var text = global_requests[theUrl];
+        var title = hyperlink.text.trim();
+        
+        $('#extra2').html(format("<b>{0}</b>: {1}", title, text));
+    }
+    
+    function prev() {
+        if(histories.length > 1){
+            histories.pop();
+            var index = histories[histories.length - 1];
+
+            show(collected[index]);
+            $('#extra').html('');
+        }
+    }
+    
+    function next() {
+        //var index = Math.floor(Math.random() * collected.length);
+        var index = histories[histories.length - 1] + 1
+        histories.push(index);
+        
+        show(collected[index]);
+        $('#extra').html('');
+    }
+    
+    function Jump() {
+        //histories.push(index);
+        var index = -1
+        var idx = $('#jump').val();
+        for (i = 0; i < collected.length; i++){
+            if (collected[i]['question_id'] == idx){
+                index = i;
+            }   
+        }
+        if (index == -1){
+            console.log("I cannot find your table")
+        }
+        else{
+            histories.push(index);
+            show(collected[index]);
+            $('#extra').html('');              
+        }
+    }
+    
+    function show(collected) {
+        var tableidx = collected['table_id'];
+        var table_content = '';
+        var table_url = 'https://raw.githubusercontent.com/wenhuchen/OTT-QA/master/data/traindev_tables_tok/' + tableidx + '.json';
+        var request_cur = 'https://raw.githubusercontent.com/wenhuchen/OTT-QA/master/data/traindev_request_tok/' + tableidx + '.json';
+        $.get(table_url, function(data){
+            var obj = JSON.parse(data)
+            var new_data = JsonToTable(tableidx, obj);
+            table_content += new_data;
+        }, 'text').fail(function() {
+            console.log("requesting table failed");
+        });
+        $.get(request_cur, function(data){
+            global_requests = JSON.parse(data);
+        }, 'text').fail(function() {
+            console.log("requesting text failed");
+        });
+        $(`#table`).html(table_content);
+
+        $(`#q1`).html("Question: " + collected['question']);
+        $(`#a1`).html(collected['answer-text']);
+        
+        var tmp = []
+        for (var value of collected['answer-node']){
+            //console.log(value);
+            tmp.push(value[0])
+        }
+        tmp = tmp.join(' ||| ');
+        
+        $('#where').html("From: "  + tmp)
+    }
+</script>
+
+
+<style>
+    .panel {
+      width: 100%;
+    }
+    table, th {
+        border: 1px solid black;
+        padding: 5px;
+        color: black;
+        font-family: verdana;
+        background-color: lightyellow;
+        font-size: smaller;
+    }
+    td {
+        border: 1px solid black;
+        padding: 5px;
+        color: black;
+        font-family: verdana;
+        background-color: #F7F8FA;
+        font-size: smaller;
+    }
+    p {
+      display: block;
+      margin-top: 0em;
+      margin-bottom: 1em;
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+    #extra {
+        line-height: 2.5ex;
+        height: 80px;
+        overflow: scroll;
+    }
+    pre {
+        line-height: 2.5ex;
+        height:160px;
+        overflow-y:scroll;
+    }    
+    div {
+        padding-left: 20px;
+        padding-bottom: 10px;
+    }
+    a {
+        cursor: pointer;    
+    }
+</style>

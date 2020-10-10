@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>OTT-QA</title>
+  <meta name="description" content="OTT-QA is a large-scale open-domain question answering dataset over the whole Wikipedia.">
+  <meta name="keywords" content="Natural Language Processing">
+  <meta name="author" content="OTT-QA">
+
+  <link rel="icon" href="dist/pic/favicon.ico">
+
+  <link rel="stylesheet" href="dist/css/bootstrap.css">
+  <link rel="stylesheet" href="dist/css/fonts.css">
+  <link rel="stylesheet" href="dist/css/custom.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><b>OTT-QA</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="content">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html"><b>Home</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="explore.html">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Paper</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://competitions.codalab.org/competitions/24420" target="_blank">Challenge</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="mailto:wenhuchen@cs.ucsb.edu">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-5 ucsb-blue">Meet OTT-QA!</h1>
+    <p class="lead ucsb-blue">A large-scale open-domain question answering dataset over heterogenesous information on the web.</p>
+  </div>
+</div>
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Why OTT-QA Answering?</h4>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 thumb">
+      <div class="card">
+        <div class="card-body">
+          <img src="dist/pic/highquality.png" class="center" style="height:8rem; width:8rem;"/>
+          <br/>
+          <center><h5 class="card-title">HIGH-QUALITY</h5>
+            <p class="card-text"><font size="3rem">Mechanical Turk; <br> Strict Quality Control</font></p></center>
+        </div>
+      </div>
+      <br/>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 thumb">
+      <div class="card">
+        <div class="card-body">
+          <img src="dist/pic/largescale.png" class="center" style="height:8rem; width:8rem;"/>
+          <br/>
+          <center><h5 class="card-title">LARGE-SCALE</h5>
+            <p class="card-text"><font size="3rem"><b>400K</b> Wikipedia Tables;<br> <b>5M</b> hyperlinked passages;<br> <b>45K</b> natural questions.</font></p></center>
+        </div>
+      </div>
+      <br/>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 thumb">
+      <div class="card">
+        <div class="card-body">
+          <img src="dist/pic/logicbased.png" class="center" style="height:8rem; width:8rem;"/>
+          <br/>
+          <center><h5 class="card-title">HYRBID</h5>
+            <p class="card-text"><font size="3rem">Semantic Understanding;<br> Symbolic Reasoning.</font></p></center>
+        </div>
+      </div>
+      <br/>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 thumb">
+      <div class="card">
+        <div class="card-body">
+          <img src="dist/pic/retrieval.png" class="center" style="height:8rem; width:8rem;"/>
+          <br/>
+          <center><h5 class="card-title">Retrieval</h5>
+            <p class="card-text"><font size="3rem">Retrieve over the whole Wikipedia</font></p></center>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
+</div>
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Introduction</h4>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h6> Existing open-domain question answering datasets focus on
+      dealing with textual homonogeneous information. However, such 
+      assumption might be sub-optimal as the real-world knowledge is distributed
+      over heterogeneous forms. In this paper, we simulate a more challenging setting
+      where we don't know in advance where the answer of a given open question 
+      appears in a passage or a table. Furthermore, the question might require
+      aggregating a table and multiple passages to answer. Thus, the model
+      needs to scan the web to retrieve most relevant evidence in both forms
+      for question answering. </h6>
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Explore</h4>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h6> We have designed an interface for you to view the data, please click <u><a href="https://tabfact.github.io/explore.html">here</a></u> to explore the dataset and have fun! </h6>
+    </div>
+  </div>
+</div>
+<br/>
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Example</h4>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h6> In the task, you are given a question and the whole Wikipedia corpus of tables and text, the goal is to identify the provenance from the large corpus to predict its final answer span:</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <img src="dist/pic/overview.png" class="rounded img-fluid mx-auto d-block" style="width:70%;" />
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Download (Train/Test Data, Code)</h4>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h6> All the code and data are provided in <a href="https://github.com/wenhuchen/OTT-QA"> <u>github</u></a>. The leaderboard is hosted in <a href="#"><u>codalab</u></a></h6>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+
+<div class="container" align="justify">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <h4>Contact</h4>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb">
+      <a href="mailto:wenhuchen@cs.ucsb.edu" target="_blank">
+        <img src="dist/pic/mail.png" class="center" style="height:5rem; width:5rem;"/>
+      </a>
+      <br/>
+      <center><h6>Have any questions or suggestions? Feel free to contact us!</h6></center>
+    </div>
+  </div>
+
+</div>
+
+<br/>
+
+<hr>
+
+<div class="container footer">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 thumb">
+      <p>
+        Copyright &copy; UCSB NLP Group<br/>
+        3530 Phelps Hall<br/>
+        University of California, Santa Barbara<br/>
+        Santa Barbara, CA 93106-5110
+      </p>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 thumb">
+      <p>
+        Hybrid is produced by USCB NLP Lab.<br/>
+        The dataset is under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.<br/>
+        Contact the author by <a href="mailto:wenhuchen@cs.ucsb.edu" target="_blank">wenhuchen@cs.ucsb.edu</a>.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<script src="dist/js/bootstrap.js"></script>
+
+</html>
