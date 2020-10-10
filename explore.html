@@ -8,6 +8,8 @@
 <body>
     <div id='title'>
     </div>
+    <div id='section_title'>
+    </div>
     <pre class="default prettyprint prettyprinted" id="extra2"><strong>Background Information Board</strong>: Hover your mouse over the entities in the table to understand their background</pre>
     <div id='table'>        
     </div>
@@ -71,7 +73,7 @@
         //var page = data['title'].split(' ').join('_');
         //var text = httpGet(format('/wiki/{0}', page));
         $('#title').html('Index: ' + tableidx + ' Title: ' + title)
-        
+        $('#section_title').html('Section Title: ' + data['section_title'])
         var output = []
         var tmp = '<tr>';
         for (i = 0; i < data['header'].length; i++){
